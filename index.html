@@ -2844,6 +2844,50 @@
         padding-left: 0;
       }
     }
+
+    .hero-scroll-btn {
+      display: none; /* hidden on desktop */
+      position: fixed;
+      bottom: 88px; /* sits above the chat button */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(0, 0, 0, 0.12);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      z-index: 800;
+      color: var(--text-primary);
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 300ms ease, transform 300ms ease;
+      animation: bounce-hint 2s ease-in-out 2s 3; /* bounces 3 times after 2s delay */
+    }
+
+    @keyframes bounce-hint {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(-6px); }
+    }
+
+    .hero-scroll-btn.is-visible {
+      opacity: 1;
+    }
+
+    .hero-scroll-btn.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      .hero-scroll-btn {
+        display: flex;
+      }
+    }
   </style>
 </head>
 
@@ -2937,6 +2981,12 @@
             <span>scroll</span>
             <span class="scroll-arrow">↓</span>
           </div>
+          <button class="hero-scroll-btn" id="heroScrollBtn" aria-label="Scroll to About section">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" 
+                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
         </div>
       </section>
 
@@ -4456,7 +4506,7 @@
 
       // 6. Projects — 4s
       tourSetTimeout(() => {
-        scrollContainerTo(projectsEl.offsetTop+150);
+        scrollContainerTo(projectsEl.offsetTop+80);
         setActiveSection('projects');
         showTourCard('projects');
       }, elapsed);
@@ -4464,7 +4514,7 @@
 
       // 7. Skills — 4s
       tourSetTimeout(() => {
-        scrollContainerTo(skillsEl.offsetTop + 150);
+        scrollContainerTo(skillsEl.offsetTop + 80);
         setActiveSection('skills');
         showTourCard('skills');
       }, elapsed);
@@ -4480,7 +4530,7 @@
 
       // 9. Return to Projects and end the tour there
       tourSetTimeout(() => {
-        scrollContainerTo(projectsEl.offsetTop);
+        scrollContainerTo(projectsEl.offsetTop+80);
         setActiveSection('projects');
         hideTourCard();
       }, elapsed);
@@ -5269,7 +5319,26 @@
       closeBtn.addEventListener('click', closeModal);
       backdrop.addEventListener('click', closeModal);
     }
+    function initHeroScrollBtn() {
+      const btn = document.getElementById('heroScrollBtn');
+      const aboutEl = document.getElementById('about');
+      if (!btn || !aboutEl) return;
 
+      // Show button after hero loads
+      setTimeout(() => btn.classList.add('is-visible'), 1500);
+
+      // Hide once user scrolls past hero
+      scrollContainer.addEventListener('scroll', () => {
+        const heroSection = document.getElementById('hero');
+        if (!heroSection) return;
+        const pastHero = scrollContainer.scrollTop > heroSection.offsetHeight * 0.4;
+        btn.classList.toggle('is-hidden', pastHero);
+      }, { passive: true });
+
+      btn.addEventListener('click', () => {
+        scrollContainerTo(aboutEl.offsetTop);
+      });
+    }
     function initContactDots() {
       const canvas = document.getElementById('contactDotsCanvas');
       const contactSection = document.getElementById('contact');
@@ -5490,6 +5559,7 @@
       initMobileMenu();
       initChat();
       updateActiveSection();
+      initHeroScrollBtn();
       // slight delay before hiding drag hint
       setTimeout(() => {
         dragHint.classList.add('is-hidden');
