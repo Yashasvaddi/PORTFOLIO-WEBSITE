@@ -1,0 +1,14 @@
+{
+  "name": "Yashas Vaddi — AI/ML Engineer",
+  "short_name": "Yashas Vaddi",
+  "description": "Portfolio of Yashas Vaddi — production LLM, RAG and multi-agent AI systems.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0a84ff",
+  "icons": [
+    { "src": "/images/logo-mark.png", "sizes": "1254x1254", "type": "image/png", "purpose": "any" },
+    { "src": "/images/logo.png", "sizes": "1254x1254", "type": "image/png", "purpose": "maskable" }
+  ]
+}
