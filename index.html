@@ -39,12 +39,18 @@
   <meta name="twitter:image" content="https://yashasvaddi.me/images/logo.png" />
 
   <!-- ── Icons / PWA ───────────────────────────────────────────────────── -->
-  <!-- Tab + nav use the transparent mark so the glyph sits on the tab strip
-       rather than in a black box; the opaque logo.png is kept for share cards
-       and the maskable PWA icon, where a solid field is what you want. -->
-  <link rel="icon" type="image/png" href="images/logo-mark.png" />
-  <link rel="shortcut icon" type="image/png" href="images/logo-mark.png" />
-  <link rel="apple-touch-icon" href="images/logo.png" />
+  <!-- Google requires the search-results favicon to be a square that is a
+       multiple of 48px, so these are 48/96/144/192 rather than the raw
+       1254px art. /favicon.ico is the path crawlers and browsers probe by
+       default and must exist at the root. The transparent mark is used for
+       tabs; the opaque one is kept for share cards and iOS, where a solid
+       field is what you want. -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="48x48" href="images/favicon-48.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="images/favicon-96.png" />
+  <link rel="icon" type="image/png" sizes="144x144" href="images/favicon-144.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
   <link rel="mask-icon" href="images/logo-mark.png" color="#0a84ff" />
   <link rel="manifest" href="site.webmanifest" />
 
